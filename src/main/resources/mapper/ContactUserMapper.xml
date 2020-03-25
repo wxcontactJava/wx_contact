@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wx.contact.reporsitory.userMapper.UserMapper">
+    <select id="login" parameterType="hashmap" resultType="com.wx.contact.domain.user.ContactUser">
+        select id,name,gender,phone,password,deptId,subjectId from contact_user
+        WHERE phone=#{phone} and password=#{password}
+    </select>
+    <select id="getByPhone" parameterType="hashmap" resultType="com.wx.contact.domain.user.ContactUser">
+        select id,name,gender,phone,password,deptId,subjectId from contact_user
+        WHERE phone=#{phone}
+    </select>
+    <insert id="register" parameterType="com.wx.contact.domain.user.ContactUser">
+        INSERT INTO contact_user (name,gender,phone,password,deptId,subjectId,flowNum,unitNum,roomNum,photo)
+        VALUES (#{name},#{gender},#{phone},#{password},#{deptId},#{subjectId},#{flowNum},#{unitNum},#{roomNum},#{photo})
+    </insert>
+</mapper>
