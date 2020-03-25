@@ -14,6 +14,6 @@ public class ContactUser {
     private String flowNum;
     private String unitNum;
     private String roomNum;
-    private byte[] photo;
+    private String photo;
 
 }
