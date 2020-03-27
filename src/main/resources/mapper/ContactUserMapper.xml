@@ -10,7 +10,7 @@
         WHERE phone=#{phone}
     </select>
     <insert id="register" parameterType="com.wx.contact.domain.user.ContactUser">
-        INSERT INTO contact_user (name,gender,phone,password,deptId,subjectId,flowNum,unitNum,roomNum,photo)
-        VALUES (#{name},#{gender},#{phone},#{password},#{deptId},#{subjectId},#{flowNum},#{unitNum},#{roomNum},#{photo})
+        INSERT INTO contact_user (name,gender,phone,password,deptId,subjectId,flowNum,unitNum,roomNum,photo,communityName)
+        VALUES (#{name},#{gender},#{phone},#{password},#{deptId},#{subjectId},#{flowNum},#{unitNum},#{roomNum},#{communityName})
     </insert>
 </mapper>

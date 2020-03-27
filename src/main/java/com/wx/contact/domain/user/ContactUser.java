@@ -11,6 +11,7 @@ public class ContactUser {
     private String password;
     private String deptId;
     private String subjectId;
+    private String communityName;
     private String flowNum;
     private String unitNum;
     private String roomNum;
