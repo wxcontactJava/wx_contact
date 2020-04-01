@@ -4,6 +4,9 @@ package com.wx.contact.domain.result;
 import com.wx.contact.domain.enums.ResponsesStatus;
 import lombok.Data;
 
+/**
+ *
+ */
 @Data
 public class ResultModel
 {
