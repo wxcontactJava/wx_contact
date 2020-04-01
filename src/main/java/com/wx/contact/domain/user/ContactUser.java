@@ -16,6 +16,6 @@ public class ContactUser {
     private String unitNum;
     private String roomNum;
     private String photo;
-    private String wx_chat;
+    private String wxChat;
 
 }
