@@ -17,5 +17,6 @@ public class ContactUser {
     private String roomNum;
     private String photo;
     private String wxChat;
+    private String openId;
 
 }
