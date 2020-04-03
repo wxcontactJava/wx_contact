@@ -13,7 +13,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-@ConfigurationProperties(prefix = "wx.miniapp")
+//@ConfigurationProperties(prefix = "wx.miniapp")
 public class WxMaProperties {
 
     private List<Config> configs;

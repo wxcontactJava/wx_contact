@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
  * @Date 2020/4/215:18
  * @Version 1.0
  */
-@Configuration
-@EnableConfigurationProperties(WxMaProperties.class)
+//@Configuration
+//@EnableConfigurationProperties(WxMaProperties.class)
 public class WxMaConfiguration {
     private WxMaProperties properties;
 

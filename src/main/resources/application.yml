@@ -3,6 +3,7 @@ server:
   servlet:
     context-path: /wx_contact
 
+
 spring:
     datasource:
       url: jdbc:mysql://47.110.32.211:3306/wx_contacts?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
@@ -22,6 +23,15 @@ spring:
       poolPreparedStatements: true
       maxOpenPreparedStatements: 20
       driverClassName: com.mysql.jdbc.Driver
-
+##############jpa配置 ##################
+    jpa:
+      show-sql: true #显示sql语句
+      database: mysql
+      hibernate:
+#        naming:
+#        physicalstrategy: org.hibernate.cfg.ImprovedNamingStrategy #命名策略 遇到大写字母 加”_”的命名。
+#        strategy: org.hibernate.cfg.ImprovedNamingStrategy #  无修改命名
+#          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # 实体类大小写不变成下划线
+        ddl-auto: none
 mybatis:
   mapper-locations: classpath:mapper/*.xml
