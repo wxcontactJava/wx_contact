@@ -1,11 +1,11 @@
 package com.wx.contact;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wx.contact.domain.project.FloorInfo;
 import com.wx.contact.domain.project.Project;
 import com.wx.contact.reporsitory.project.FloorInfoRepository;
 import com.wx.contact.reporsitory.project.ProjectRepository;
+import com.wx.contact.utils.UniqueKeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -108,7 +109,7 @@ public class ContactApplicationTests {
         JSONObject jsonObject = JSONObject.parseObject(result);
         List<String> list = JSONObject.parseArray(jsonObject.getString("obj"), String.class);
         List<FloorInfo> floorInfos = new ArrayList<>();
-        list.forEach(bean -> floorInfos.add(FloorInfo.builder().id(generateId()).name(bean).
+        list.forEach(bean -> floorInfos.add(FloorInfo.builder().id(UniqueKeyUtil.generateId()).name(bean).
                 projectId(projectId).pId(buildingId).level((byte) 2).build()));
         floorInfoRepository.saveAll(floorInfos);
     }
@@ -130,7 +131,7 @@ public class ContactApplicationTests {
             List<JSONObject> list = JSONObject.parseArray(jsonObject.getString("obj"), JSONObject.class);
 
             List<FloorInfo> floorInfos = new ArrayList<>();
-            list.forEach(bean -> floorInfos.add(FloorInfo.builder().id(bean.getString("HouseID")).name(bean.getString("HouseNo")).
+            list.forEach(bean ->  floorInfos.add(FloorInfo.builder().id(bean.getString("HouseID")).name(bean.getString("HouseNo")).
                     projectId("40286081630af2f601630afd9d470009").pId(floorInfo.getId()).level((byte) 3).build()));
             try {
                 floorInfoRepository.saveAll(floorInfos);
@@ -157,11 +158,4 @@ public class ContactApplicationTests {
         JSONObject jsonObject = JSONObject.parseObject(result);
         log.info("获取房号信息：{}", jsonObject);
     }
-
-    public static synchronized String generateId() {
-        Random random = new Random();
-        Integer number = random.nextInt(90000) + 10000;
-        return System.currentTimeMillis() + String.valueOf(number);
-    }
-
 }

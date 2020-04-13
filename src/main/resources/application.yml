@@ -36,8 +36,23 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
-#小程序配置信息
+##############redis配置 ##################
+redis:
+  host: 47.110.32.211
+  port: 6379
+  password: GERSDHSDFGSJY232FAS232ASH7878BNXZ323JFT;
+  timeout: 10
+  poolMaxTotal: 5
+  poolMaxIdle: 10
+  poolMaxWait: 10
+  database: 3
+
 wx:
+  appId: wx983a55bf3422f686 #小程序唯一标识
+  appSecret: 6c44db2ae375f58c97324958f66300eb #小程序的 app secret
+  grantType: authorization_code # 授权（必填）
+  userUrl: https://api.weixin.qq.com/sns/jscode2session? #小程序官方api 获取用户信息
+#小程序配置信息
   miniapp:
     configs:
         appid: xxxxx
