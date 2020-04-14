@@ -1,6 +1,5 @@
 package com.wx.contact.controller;
 
-import com.wx.contact.domain.enums.ResponsesStatus;
 import com.wx.contact.domain.result.ResultModel;
 import com.wx.contact.service.FloorInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,13 @@ public class FloorInfController {
 
     @Autowired
     private FloorInfoService floorInfoService;
+    /**
+     * 获取所有小区
+     */
+    @GetMapping("/getAllProject")
+    public ResultModel getAllProject() {
+        return ResultModel.success(floorInfoService.getAllProject());
+    }
 
     /**
      * 根据项目id（或者pid）和level获取楼层信息

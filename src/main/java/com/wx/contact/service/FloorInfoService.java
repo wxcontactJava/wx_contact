@@ -34,4 +34,8 @@ public class FloorInfoService {
     public List<FloorInfo> getFloorInfoByPid(String pid, Byte level){
         return floorInfoRepository.findBypIdAndLevel(pid,level);
     }
+
+    public List<Project> getAllProject() {
+       return projectRepository.findAll();
+    }
 }

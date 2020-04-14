@@ -1,6 +1,7 @@
 package com.wx.contact.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wx.contact.constants.WeChatUrl;
 import com.wx.contact.domain.enums.ResponsesStatus;
 import com.wx.contact.domain.result.ResultModel;
 import com.wx.contact.domain.user.WxAttentionUser;
@@ -40,29 +41,28 @@ public class WeChatController {
     private String appSecret;
     @Value("${wx.grantType}")
     private String grantType;
-    @Value("${wx.userUrl}")
-    private String userUrl;
+
     /**
      * 小程序登录获取用户信息
      *
-     * @param encryptedData    授权后的敏感信息（包含：用户基本信息、unionId（用户多平台下唯一标识））
+     * @param encryptedData 授权后的敏感信息（包含：用户基本信息、unionId（用户多平台下唯一标识））
      * @param iv
-     * @param code             临时会话code（默认五分钟）
+     * @param code          临时会话code（默认五分钟）
      * @return
      */
     @GetMapping("/getWeChatUserInfo")
-    public ResultModel getWxUserInfo(@RequestParam(value = "encryptedData") String encryptedData,
-                                     @RequestParam(value = "iv") String iv,
+    public ResultModel getWxUserInfo(@RequestParam(value = "encryptedData", required = false) String encryptedData,
+                                     @RequestParam(value = "iv", required = false) String iv,
                                      @RequestParam(value = "code") String code) {
         //登录凭证不能为空
-        if (StringUtils.isEmpty(code) || StringUtils.isEmpty(encryptedData) || StringUtils.isEmpty(iv)) {
-            return ResultModel.error(ResponsesStatus.NODATA);
+        if (StringUtils.isEmpty(code)) {
+            return ResultModel.error(ResponsesStatus.PARAMS_ERROR);
         }
         // 向微信服务器 使用登录凭证 code 获取 session_key 和 openid
         String params = "appid=" + appId + "&secret=" + appSecret + "&js_code=" + code + "&grant_type=" + grantType;
         ResponseEntity<String> sr;
         try {
-            sr = restTemplate.getForEntity(userUrl + params,String.class) ;
+            sr = restTemplate.getForEntity(WeChatUrl.USER_URL + params, String.class);
             log.info("【请求weChat api返回数据】sr={}", sr);
         } catch (Exception e) {
             log.error("【请求weChat api出错】e={}", e);
@@ -79,15 +79,23 @@ public class WeChatController {
         //用户的唯一标识（openid）
         String openId = json.getString("openid");
         try {
-            String result = AesUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");
-            if (!StringUtils.isEmpty(result)) {
-                JSONObject userInfo = JSONObject.parseObject(result);
-                log.info("解密后的用户信息={}", userInfo);
-                if (!StringUtils.isEmpty(openId) || !StringUtils.isEmpty(userInfo.get("unionId"))) {
-                    WxAttentionUser weChatUser = weChatService.insertWeChatUser(userInfo);
-                    return ResultModel.success(weChatUser);
+            //第二次进入小程序解密信息
+            if (!StringUtils.isEmpty(encryptedData) && !StringUtils.isEmpty(iv)) {
+                String result = AesUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");
+                if (!StringUtils.isEmpty(result)) {
+                    JSONObject userInfo = JSONObject.parseObject(result);
+                    log.info("解密后的用户信息={}", userInfo);
+                    if (!StringUtils.isEmpty(openId) || !StringUtils.isEmpty(userInfo.get("unionId"))) {
+                        WxAttentionUser weChatUser = weChatService.insertWeChatUser(userInfo);
+                        return ResultModel.success(weChatUser);
+                    }
                 }
+            } else {
+                WxAttentionUser weChatUser = new WxAttentionUser();
+                weChatUser.setOpenId(openId);
+                return ResultModel.success(weChatUser);
             }
+
         } catch (Exception e) {
             log.error("【解密失败】result={}", e);
         }

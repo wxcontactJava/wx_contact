@@ -48,10 +48,9 @@ redis:
   database: 3
 
 wx:
-  appId: wx983a55bf3422f686 #小程序唯一标识
-  appSecret: 6c44db2ae375f58c97324958f66300eb #小程序的 app secret
+  appId: wx48c148e3f91f483c #小程序唯一标识
+  appSecret: ebc6870752e3108e77f7f1247330119f #小程序的 app secret
   grantType: authorization_code # 授权（必填）
-  userUrl: https://api.weixin.qq.com/sns/jscode2session? #小程序官方api 获取用户信息
 #小程序配置信息
   miniapp:
     configs:
